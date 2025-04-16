@@ -118,8 +118,8 @@ export async function getReviews(req, res) {
       [id, limit, offset]
     );
     const nextReview = await db.query(
-      "select * from reviews limit 1 offset $1",
-      [page * limit]
+      "select 1 from reviews where book_id = $1 limit 1 offset $2",
+      [id, page * limit]
     );
     if (nextReview.rows.length > 0) {
       res.status(200).json({ reviews: result.rows, hasMore: true });
